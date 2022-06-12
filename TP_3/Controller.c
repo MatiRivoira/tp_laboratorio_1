@@ -66,8 +66,9 @@ int controller_addPassenger(LinkedList* pArrayListPassenger)
 	int retorno = -1;
 		if(pArrayListPassenger != NULL){
 			Passenger* newPasajero;
+
 			int id = 0;
-			char idString[4];
+			char idString[10];
 			char nombreAux[20];
 			char apellidoAux[20];
 			float precioAux;
@@ -79,11 +80,16 @@ int controller_addPassenger(LinkedList* pArrayListPassenger)
 			char estadoVueloAuxString[20];
 
 			int tam = ll_len(pArrayListPassenger);
+
 			if(tam > 0){
-				id = tam;
+				id++;
+				id = id + tam;
+				itoa(id,idString, 10);
+			} else {
+				id++;
+				itoa(id,idString, 10);
 			}
-			id++;
-			itoa(id, idString, 20);
+
 			llenarString(nombreAux, "\nIngrese el nombre del pasajero: ");
 			llenarString(apellidoAux, "\nIngrese el apellido del pasajero: ");
 			llenarFloat(&precioAux, "\nIngrese el precio del vuelo: ", "Error. Ingrese un dato valido ¯_(ツ)_/¯, \n", 99999999, 1);
@@ -279,31 +285,120 @@ int controller_ListPassenger(LinkedList* pArrayListPassenger){
 int controller_sortPassenger(LinkedList* pArrayListPassenger)
 {
 	int retorno = -1;
-	int valor;
+	int opcion;
+	int sentido;
+	int valor = 0;
+
 	Passenger* unPasajero;
 	Passenger* unPasajero2;
-	Passenger* aux;
+
+	int id;
+	char nombre[50];
+	char apellido[50];
+	float precio;
+	char tipoPasajero[20];
+	char codigoVuelo[20];
+	char estadoVuelo[20];
+
+	int id2;
+	char nombre2[50];
+	char apellido2[50];
+	float precio2;
+	char tipoPasajero2[20];
+	char codigoVuelo2[20];
+	char estadoVuelo2[20];
+
+	llenarInt(&opcion, "Ingrese como quiere ordenar los pasajeros, 1- POR NOMBRE, 2- POR APELLIDO, 3- POR PRECIO DE VUELO. 4- POR ESTADO DE VUELO, 5- CANCELAR", "ERROR, opcion no valida, vuelva a intentarlo ب(ﾉ◕╭╮◕),)", 5, 1);
+	llenarInt(&sentido, "Ingrese 1- PARA CRECIENTE, 2- DECRECIENTE", "ERROR, opcion no valida, vuelva a intentarlo ب(ﾉ◕╭╮◕),)", 2, 1);
 
 	for(int i = 0 ; i < ll_len(pArrayListPassenger); i++){
 		unPasajero = (Passenger*) ll_get(pArrayListPassenger, i);
 		for(int j = i+1; j < ll_len(pArrayListPassenger) ;j++){
 			unPasajero2 = (Passenger*) ll_get(pArrayListPassenger, j);
-			if(unPasajero2 != NULL){
-				valor = strcmp(unPasajero->nombre, unPasajero2->nombre);
-				if(valor != 1){
-					if(unPasajero->precio > unPasajero2->precio){
-						valor = 1;
-					}
-				}
-				if(valor == 1){
-					valor = 0;
-					aux = unPasajero;
-					unPasajero = unPasajero2;
-					unPasajero2 = aux;
-					j = i+1;
-				}
-				retorno = 0;
+			switch(opcion){
+				case 1:
+					valor = sortByName(unPasajero,unPasajero2);
+					break;
+				case 2:
+					valor = sortByLastName(unPasajero,unPasajero2);
+					break;
+				case 3:
+					valor = sortByPrice(unPasajero,unPasajero2);
+					break;
+				case 4:
+					valor = sortByflightstatus(unPasajero,unPasajero2);
+					break;
+				case 6:
+					return 0;
+					break;
 			}
+
+			if(valor < 0 && sentido == 2){
+				Passenger_getId(unPasajero, &id);
+				Passenger_getNombre(unPasajero, nombre);
+				Passenger_getApellido(unPasajero, apellido);
+				Passenger_getPrecio(unPasajero, &precio);
+				Passenger_getTipoPasajero(unPasajero, tipoPasajero);
+				Passenger_getCodigoVuelo(unPasajero, codigoVuelo);
+				Passenger_getEstadoVuelo(unPasajero, estadoVuelo);
+
+				Passenger_getId(unPasajero2, &id2);
+				Passenger_getNombre(unPasajero2, nombre2);
+				Passenger_getApellido(unPasajero2, apellido2);
+				Passenger_getPrecio(unPasajero2, &precio2);
+				Passenger_getTipoPasajero(unPasajero2, tipoPasajero2);
+				Passenger_getCodigoVuelo(unPasajero2, codigoVuelo2);
+				Passenger_getEstadoVuelo(unPasajero2, estadoVuelo2);
+
+				Passenger_setId(unPasajero2, id);
+				Passenger_setNombre(unPasajero2, nombre);
+				Passenger_setApellido(unPasajero2, apellido);
+				Passenger_setPrecio(unPasajero2, precio);
+				Passenger_setTipoPasajero(unPasajero2, tipoPasajero);
+				Passenger_setCodigoVuelo(unPasajero2, codigoVuelo);
+				Passenger_setEstadoVuelo(unPasajero2, estadoVuelo);
+
+				Passenger_setId(unPasajero, id2);
+				Passenger_setNombre(unPasajero, nombre2);
+				Passenger_setApellido(unPasajero, apellido2);
+				Passenger_setPrecio(unPasajero, precio2);
+				Passenger_setTipoPasajero(unPasajero, tipoPasajero2);
+				Passenger_setCodigoVuelo(unPasajero, codigoVuelo2);
+				Passenger_setEstadoVuelo(unPasajero, estadoVuelo2);
+			} else if(valor > 0 && sentido == 1){
+				Passenger_getId(unPasajero, &id);
+				Passenger_getNombre(unPasajero, nombre);
+				Passenger_getApellido(unPasajero, apellido);
+				Passenger_getPrecio(unPasajero, &precio);
+				Passenger_getTipoPasajero(unPasajero, tipoPasajero);
+				Passenger_getCodigoVuelo(unPasajero, codigoVuelo);
+				Passenger_getEstadoVuelo(unPasajero, estadoVuelo);
+
+				Passenger_getId(unPasajero2, &id2);
+				Passenger_getNombre(unPasajero2, nombre2);
+				Passenger_getApellido(unPasajero2, apellido2);
+				Passenger_getPrecio(unPasajero2, &precio2);
+				Passenger_getTipoPasajero(unPasajero2, tipoPasajero2);
+				Passenger_getCodigoVuelo(unPasajero2, codigoVuelo2);
+				Passenger_getEstadoVuelo(unPasajero2, estadoVuelo2);
+
+				Passenger_setId(unPasajero2, id);
+				Passenger_setNombre(unPasajero2, nombre);
+				Passenger_setApellido(unPasajero2, apellido);
+				Passenger_setPrecio(unPasajero2, precio);
+				Passenger_setTipoPasajero(unPasajero2, tipoPasajero);
+				Passenger_setCodigoVuelo(unPasajero2, codigoVuelo);
+				Passenger_setEstadoVuelo(unPasajero2, estadoVuelo);
+
+				Passenger_setId(unPasajero, id2);
+				Passenger_setNombre(unPasajero, nombre2);
+				Passenger_setApellido(unPasajero, apellido2);
+				Passenger_setPrecio(unPasajero, precio2);
+				Passenger_setTipoPasajero(unPasajero, tipoPasajero2);
+				Passenger_setCodigoVuelo(unPasajero, codigoVuelo2);
+				Passenger_setEstadoVuelo(unPasajero, estadoVuelo2);
+			}
+			retorno = 0;
 		}
 	}
 	controller_ListPassenger(pArrayListPassenger);

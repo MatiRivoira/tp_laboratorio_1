@@ -6,17 +6,8 @@
 #include "UTN.h"
 
 /****************************************************
-    Menu:
-     1. Cargar los datos de los pasajeros desde el archivo data.csv (modo texto).
-     2. Cargar los datos de los pasajeros desde el archivo data.csv (modo binario).
-     3. Alta de pasajero
-     4. Modificar datos de pasajero
-     5. Baja de pasajero
-     6. Listar pasajeros
-     7. Ordenar pasajeros
-     8. Guardar los datos de los pasajeros en el archivo data.csv (modo texto).
-     9. Guardar los datos de los pasajeros en el archivo data.csv (modo binario).
-    10. Salir
+  ATENCION:
+  SI APARECEN 3 WARNING ES BUG O REALEMENTE NO SE QUE ES PERO SE ARREGLA BORRANDO ALGUNA LETRA DE LA FUNCION controller_loadFromText Y VOLVIENDOLA A PONER
 *****************************************************/
 
 
@@ -24,11 +15,13 @@ int main(){
 	setbuf(stdout, NULL);
 
     int option = 0;
-    int guardo = -1;
+    int guardo = 0;
     int pasajerosCargados = 0;
+    int pasajerosActuales = 0;
 
     LinkedList* listaPasajeros = ll_newLinkedList();
     do{
+    	pasajerosActuales = ll_len(listaPasajeros);
     	llenarInt(&option,"\n  ▂▂▂▃▃▅▅▆▆█ MENU PRINCIPAL █▆▆▅▅▃▃▂▂▂\n"
 							"  1- Cargar los datos de los pasajeros desde el archivo data.csv (modo texto).\n"
 							"  2- Cargar los datos de los pasajeros desde el archivo data.csv (modo binario).\n"
@@ -44,6 +37,8 @@ int main(){
             case 1:
                 if(controller_loadFromText("data.csv",listaPasajeros) == 0){
                 	pasajerosCargados = ll_len(listaPasajeros);
+                	pasajerosCargados = pasajerosCargados - pasajerosActuales;
+                	guardo = -1;
                 	printf("\n %d pasajeros cargados exitosamente (ɔ◔‿◔)ɔ ♥, ", pasajerosCargados);
                 	system("pause");
                 } else {
@@ -53,7 +48,9 @@ int main(){
                 break;
             case 2:
             	if(controller_loadFromBinary("data.csv",listaPasajeros) == 0){
-                	pasajerosCargados = ll_len(listaPasajeros);
+                   	pasajerosCargados = ll_len(listaPasajeros);
+                   	pasajerosCargados = pasajerosCargados - pasajerosActuales;
+                	guardo = -1;
                 	printf("\n %d pasajeros cargados exitosamente (ɔ◔‿◔)ɔ ♥ ", pasajerosCargados);
                 	system("pause");
                 } else {
@@ -64,6 +61,7 @@ int main(){
             case 3:
             	if(controller_addPassenger(listaPasajeros) == 0){
             		pasajerosCargados++;
+            		guardo = -1;
             		printf("\n Pasajero cargado correctamente (ɔ◔‿◔)ɔ ♥, ");
             		system("pause");
             	} else {
@@ -118,7 +116,7 @@ int main(){
 				}
 				break;
             case 9:
-              	if(controller_saveAsBinary("data.bin",listaPasajeros) == 0){
+              	if(controller_saveAsBinary("data.csv",listaPasajeros) == 0){
               		guardo = 1;
 					printf("\n %d pasajeros guardados exitosamente (ɔ◔‿◔)ɔ ♥, ", pasajerosCargados);
 					system("pause");
@@ -147,7 +145,7 @@ int main(){
              		 break;
              }
         }
-    }while(option != 10 && guardo == -1);
+    }while(option != 10 || guardo == -1);
     return 0;
 }
 

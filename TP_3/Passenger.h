@@ -31,6 +31,7 @@ void Passenger_delete();
 
 int Passenger_setId(Passenger* this,int id);
 int Passenger_getId(Passenger* this,int* id);
+int Passenger_getLastId(LinkedList* this,int* id);
 
 int Passenger_setNombre(Passenger* this,char* nombre);
 int Passenger_getNombre(Passenger* this,char* nombre);
@@ -54,4 +55,10 @@ void printPassenger(Passenger* pasajero);
 
 int saveAsText(FILE* pArchivo, LinkedList* pArrayListPassenger);
 int saveAsBinary(FILE* pArchivo, LinkedList* pArrayListPassenger);
+
+int sortByName(Passenger* pasajero, Passenger* pasajero2);
+int sortByLastName(Passenger* pasajero, Passenger* pasajero2);
+int sortByPrice(Passenger* pasajero, Passenger* pasajero2);
+int sortByflightstatus(Passenger* pasajero, Passenger* pasajero2);
+
 #endif /* PASSENGER_H_ */

@@ -76,6 +76,26 @@ int Passenger_getId(Passenger* this,int* id)
 	return retorno;
 }
 
+int Passenger_getLastId(LinkedList* this, int* id){
+	int retorno = -1;
+	if(this != NULL && id != NULL){
+		int tam = ll_len(this);
+		int idMax = 0;
+		int idAux;
+		Passenger* aux;
+		for(int i = 0; i < tam ; i++){
+			aux = ll_get(this, i);
+			Passenger_getId(aux, &idAux);
+			if(idAux > idMax){
+				idMax = idAux;
+			}
+		}
+		*id = idMax + 1;
+		retorno = 0;
+	}
+	return retorno;
+}
+
 int Passenger_setNombre(Passenger* this,char* nombre){
 	int retorno = -1;
 
@@ -291,5 +311,59 @@ int saveAsBinary(FILE* pArchivo, LinkedList* pArrayListPassenger){
 		}
 	}
 
+	return retorno;
+}
+
+int sortByName(Passenger* pasajero, Passenger* pasajero2){
+	int retorno = -1;
+	char name[50];
+	char name2[50];
+	if(pasajero != NULL && pasajero2 != NULL){
+		if(Passenger_getNombre(pasajero, name) == 0 && Passenger_getNombre(pasajero2, name2) == 0){
+			retorno = strcmp(name, name2);
+		}
+	}
+	return retorno;
+}
+
+int sortByLastName(Passenger* pasajero, Passenger* pasajero2){
+	int retorno = -1;
+	char LastName[50];
+	char LastName2[50];
+	if(pasajero != NULL && pasajero2 != NULL){
+		if(Passenger_getApellido(pasajero, LastName) == 0 && Passenger_getApellido(pasajero2, LastName2) == 0){
+			retorno = strcmp(LastName, LastName2);
+		}
+	}
+	return retorno;
+}
+
+int sortByPrice(Passenger* pasajero, Passenger* pasajero2){
+	int retorno;
+	float precio;
+	float precio2;
+	if(pasajero != NULL && pasajero2 != NULL){
+		if(Passenger_getPrecio(pasajero, &precio) == 0 && Passenger_getPrecio(pasajero2, &precio2) == 0){
+			if(precio > precio2){
+				retorno = 2;
+			} else if(precio < precio2){
+				retorno = -1;
+			} else {
+				retorno = 0;
+			}
+		}
+	}
+	return retorno;
+}
+
+int sortByflightstatus(Passenger* pasajero, Passenger* pasajero2){
+	int retorno = -1;
+	char estadoVuelo[20];
+	char estadoVuelo2[20];
+	if(pasajero != NULL && pasajero2 != NULL){
+		if(Passenger_getEstadoVuelo(pasajero, estadoVuelo) == 0 && Passenger_getEstadoVuelo(pasajero2, estadoVuelo2) == 0){
+			retorno = strcmp(estadoVuelo, estadoVuelo2);
+		}
+	}
 	return retorno;
 }
