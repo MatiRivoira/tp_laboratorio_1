@@ -51,6 +51,7 @@ int Passenger_getPrecio(Passenger* this,float* precio);
 int Passenger_setEstadoVuelo(Passenger* this, char* estadoVuelo);
 int Passenger_getEstadoVuelo(Passenger* this, char* estadoVuelo);
 
+int Passenger_printOne(Passenger* this);
 void printPassenger(Passenger* pasajero);
 
 int saveAsText(FILE* pArchivo, LinkedList* pArrayListPassenger);
