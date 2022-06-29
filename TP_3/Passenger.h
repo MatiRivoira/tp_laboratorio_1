@@ -52,6 +52,7 @@ int Passenger_setEstadoVuelo(Passenger* this, char* estadoVuelo);
 int Passenger_getEstadoVuelo(Passenger* this, char* estadoVuelo);
 
 void printPassenger(Passenger* pasajero);
+int Passenger_printOne(Passenger* this);
 
 int saveAsText(FILE* pArchivo, LinkedList* pArrayListPassenger);
 int saveAsBinary(FILE* pArchivo, LinkedList* pArrayListPassenger);

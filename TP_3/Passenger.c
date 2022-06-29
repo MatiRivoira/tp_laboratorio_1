@@ -211,7 +211,8 @@ int Passenger_getEstadoVuelo (Passenger* this,char* estadoVuelo)
 	return retorno;
 }
 
-void Passenger_printOne(Passenger* this){
+int Passenger_printOne(Passenger* this){
+	int retorno = -1;
 	if(this != NULL){
 		int id;
 		char nombre[50];
@@ -229,9 +230,10 @@ void Passenger_printOne(Passenger* this){
 		Passenger_getCodigoVuelo(this, codigoVuelo);
 		Passenger_getEstadoVuelo(this, estadoVuelo);
 
-
 		printf("%-4d | %-20s | %-20s | %-20f | %s | %-20s | %-20s\n", id, nombre, apellido, precio, codigoVuelo, tipoPasajero, estadoVuelo);
+		retorno = 0;
 	}
+	return retorno;
 }
 
 void printPassenger(Passenger* pasajero){
